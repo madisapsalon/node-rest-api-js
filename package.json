@@ -1,0 +1,26 @@
+{
+  "name": "rest-api",
+  "version": "1.0.0",
+  "description": "Use it as a node.js REST API boilerplate",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/madisapsalon/node-rest-api-js.git"
+  },
+  "author": "Madis A.",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/madisapsalon/node-rest-api-js/issues"
+  },
+  "homepage": "https://github.com/madisapsalon/node-rest-api-js#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1"
+  }
+}
