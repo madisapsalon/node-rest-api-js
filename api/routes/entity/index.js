@@ -1,9 +1,9 @@
 const router = require('express').Router();
 
+const entityController = require('../../controllers/entity');
+
 const routes = () => {
-  router.get('/', (req, res) => {
-    res.send('GET /entity response is successful');
-  });
+  router.get('/', entityController.controller);
 
   return router;
 }
