@@ -1,13 +1,42 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
+
+const SALT_ROUNDS = 12;
 
 const UserSchema = mongoose.Schema({
-  username: {
+  email: {
     type: String,
     required: true,
     trim: true,
     index: { unique: true },
-    minlength: 3,
+    match: /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/
   },
+  password: {
+    type: String,
+    required: true,
+    trim: true,
+    index: { unique: true },
+    minlength: 8,
+  },
+  salt: {
+    type: String
+  }
 }, { timestamps: true });
+
+UserSchema.pre('save', async function preSave(next) {
+  const user = this;
+  if (!user.isModified('password')) return next();
+  try {
+    user.salt = await bcrypt.genSalt();
+    user.password = await bcrypt.hash(user.password, user.salt);
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+});
+
+UserSchema.methods.comparePassword = async function comparePassword(candidate) {
+  return bcrypt.compare(candidate, this.password);
+};
 
 module.exports = mongoose.model('User', UserSchema);

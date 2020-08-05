@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 // Establish MongoDB connection
-//TODO Put mongoDB credentials to env variables
 const username = process.env.DB_USERNAME || 'root';
 const password = process.env.DB_PASSWORD || 'example';
 const host = process.env.DB_HOST || 'localhost';
