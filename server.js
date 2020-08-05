@@ -1,12 +1,19 @@
 const http = require('http');
+const db = require('./db');
 const app = require('./app');
 
 const port = process.env.PORT || 3000;
 
 const server = http.createServer(app);
 
-// Let's roll the server
-server.listen(port);
+// Establish MongoDB connection
+db.connect()
+  .then(() => {
+    server.listen(port);
+  })
+  .catch(() => {
+    console.log('Database connection error');
+  });
 
 // If the server is rolling successfully
 server.on('listening', () => {
