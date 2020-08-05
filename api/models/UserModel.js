@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
-const SALT_ROUNDS = 12;
-
 const UserSchema = mongoose.Schema({
   email: {
     type: String,
@@ -35,8 +33,10 @@ UserSchema.pre('save', async function preSave(next) {
   }
 });
 
-UserSchema.methods.comparePassword = async function comparePassword(candidate) {
-  return bcrypt.compare(candidate, this.password);
+UserSchema.methods.validatePassword = async function validatePassword(password) {
+  console.log(password);
+  const hash = await bcrypt.hash(password, this.salt);
+  return hash === this.password;
 };
 
 module.exports = mongoose.model('User', UserSchema);
