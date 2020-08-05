@@ -1,4 +1,5 @@
 const User = require('../models/UserModel');
+const jwt = require('jsonwebtoken');
 
 const user = (req, res, next) => {
   res.send('GET /user response is successful');
@@ -18,14 +19,15 @@ const addUser = async (req, res) => {
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email }).exec();
-  if (!user) {
-    return res.send('No such email in the database');
-  }
-  const validPassword = await user.validatePassword(password);
-  if (validPassword) {
-    return res.send('Password OK')
+
+  if (user && await user.validatePassword(password)) {
+    const token = jwt.sign(
+      { email: user.email, id: user.id },
+      process.env.JWT_KEY || 'secretkey',
+      { expiresIn: '1h' })
+    return res.json({ token });
   } else {
-    return res.send('NOK');
+    return res.send('User validation failed.');
   }
 }
 

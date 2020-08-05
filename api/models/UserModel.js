@@ -34,7 +34,6 @@ UserSchema.pre('save', async function preSave(next) {
 });
 
 UserSchema.methods.validatePassword = async function validatePassword(password) {
-  console.log(password);
   const hash = await bcrypt.hash(password, this.salt);
   return hash === this.password;
 };
