@@ -2,7 +2,7 @@ const express = require('express');
 const helmet = require('helmet');
 const compression = require('compression');
 const bodyParser = require('body-parser');
-const routes = require('./api/routes');
+const routes = require('./routes');
 
 const app = express();
 // Set HTTP headers for security
