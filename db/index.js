@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const log = require('../api/logger');
 
 // Establish MongoDB connection
 const username = process.env.DB_USERNAME || 'root';
@@ -15,14 +16,14 @@ const mongoOptions = {
 
 module.exports = {
   connect: async () => {
-    console.log('Connecting to MongoDB...');
+    log.info('Connecting to MongoDB...');
 
     mongoose.connection.on('connected', () => {
-      console.log('Database connection is successfully established.');
+      log.info('Database connection is successfully established.');
     });
 
     mongoose.connection.on('error', error => {
-      console.log(error);
+      log.fatal(error);
     });
 
     return mongoose.connect(mongoUri, mongoOptions);
